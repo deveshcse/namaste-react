@@ -1,0 +1,9 @@
+#headingone{
+    color: red;
+    background-color: antiquewhite;
+}
+
+#parent{
+    display: flex;
+
+}
