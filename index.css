@@ -1,9 +1,12 @@
 .header {
     display: flex;
+    
     justify-content: space-between;
-    border: 1px solid rgb(246, 149, 117);
+    /* border: 1px solid rgb(246, 149, 117); */
     
 }
+
+
 
 .logo {
     width: 100px;
@@ -12,6 +15,7 @@
 
 .nav-items ul{
     display: flex;
+    
     
     
 }
@@ -33,6 +37,10 @@
     padding: 5px;
     margin: 2px;
     overflow: hidden;
+    color: black;
+    
+
+
 }
 
 .restaurant-card:hover{
@@ -49,9 +57,6 @@
 .restaurant-card img{
     width:200px;
 }
-.search{
-    padding: 20px;
-}
 
 .res-logo{
     width: 100%;
@@ -64,9 +69,48 @@
 .restaurant-container{
     display: flex;
     flex-wrap: wrap;
+    
+}
+
+
+
+.shimmerContainer{
+    display: flex;
+    flex-wrap: wrap;
+}
+    
+
+
+.shimmer-card{
+    margin: 20px;
+    width: 200px;
+    height: 400px;
+    background-color: #c7a1a1; 
+}
+
+.login{
+    padding: 0 20px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.filter{
+    display: flex;
+    
+    
 }
 
 .filter-btn {
     margin: 10px;
     cursor: pointer;
+}
+
+
+.reccomended{
+    display: flex;
+}
+
+.user-card{
+    padding: 10px;
+    border: 1px solid black;
 }

@@ -8,9 +8,10 @@ const RestaurentCard = (props) => {
       avgRating,
       cuisines,
       costForTwo,
-      deliveryTime,
+      
     } = resData?.info;
-  
+    
+    const {deliveryTime} = resData.info.sla;
     return (
       <div className="restaurant-card">
         <img
