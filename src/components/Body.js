@@ -1,7 +1,7 @@
 import RestaurentCard from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 const Body = () => {
   // Local State Variable
@@ -21,7 +21,8 @@ const Body = () => {
     );
 
     const json = await data.json();
-    console.log("initial restaurant list:",
+    console.log(
+      "initial restaurant list:",
       json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants
     );
 
@@ -35,7 +36,7 @@ const Body = () => {
 
   const onlineStatus = useOnlineStatus();
   console.log(onlineStatus);
-  
+
   if (onlineStatus === false) {
     return (
       <h1>Looks you are Offline please check your internet connection..</h1>
@@ -48,17 +49,18 @@ const Body = () => {
   }
   return (
     <div className="body">
-      <div className="filter">
-        <div className="filter-btn">
+      <div className="flex">
+        <div className="m-4 p-4">
           <input
             type="text"
-            className="search-box"
+            className="border border-solid border-black"
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
           ></input>
           <button
+            className="px-4 py-0 bg-green-100 rounded-lg"
             onClick={() => {
               // filter the restaurant cards and update the ui
               // searchText
@@ -69,7 +71,7 @@ const Body = () => {
                   .toLowerCase()
                   .includes(searchText.toLowerCase())
               );
-              
+
               setFilteredRestaurant(filteredRestaurant);
 
               console.log(`filtered: ${filteredRestaurant}`);
@@ -79,22 +81,31 @@ const Body = () => {
             Search
           </button>
         </div>
-        <button
-          className="filter-btn"
-          onClick={() => {
-            //filter logic is here
-            const filteredList = listOfRestaurant.filter(
-              (restaurant) => restaurant.info.avgRating > 4
-            );
-            setlistOfRestaurant(filteredList);
-          }}
-        >
-          Top Rated Restaurants 4.5+
-        </button>
+        <div className="flex m-4 p-4">
+          {" "}
+          <button
+            className="bg-gray-400 rounded-lg "
+            onClick={() => {
+              //filter logic is here
+              const filteredList = listOfRestaurant.filter(
+                (restaurant) => restaurant.info.avgRating > 4
+              );
+              setlistOfRestaurant(filteredList);
+            }}
+          >
+            Top Rated Restaurants 4.5+
+          </button>
+        </div>
       </div>
-      <div className="restaurant-container">
+      <div className="flex flex-wrap ">
         {filteredRestaurant.map((restaurant) => (
-         <Link key={restaurant.info.id}  to={"/restaurants/"+ restaurant.info.id}> <RestaurentCard  resData={restaurant} /> </Link>
+          <Link
+            key={restaurant.info.id}
+            to={"/restaurants/" + restaurant.info.id}
+          >
+            {" "}
+            <RestaurentCard resData={restaurant} />{" "}
+          </Link>
         ))}
       </div>
     </div>
