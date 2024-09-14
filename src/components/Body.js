@@ -1,15 +1,19 @@
-import RestaurentCard from "./RestaurantCard";
+import RestaurentCard, {withPureVegLabel} from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+
+
 const Body = () => {
   // Local State Variable
   const [listOfRestaurant, setlistOfRestaurant] = useState([]);
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
 
   const [searchText, setSearchText] = useState("");
-  console.log("body rendered");
+
+  const RestaurantPureVeg = withPureVegLabel(RestaurentCard);
+  console.log("body rendered", listOfRestaurant);
 
   useEffect(() => {
     fetchData();
@@ -35,7 +39,6 @@ const Body = () => {
   };
 
   const onlineStatus = useOnlineStatus();
-  console.log(onlineStatus);
 
   if (onlineStatus === false) {
     return (
@@ -48,19 +51,19 @@ const Body = () => {
     return <Shimmer />;
   }
   return (
-    <div className="body">
-      <div className="flex">
-        <div className="m-4 p-4">
+    <div className="">
+      <div className="flex w-9/12 mx-auto ">
+        <div className="my-4 p-4">
           <input
             type="text"
-            className="border border-solid border-black"
+            className="border border-solid border-black rounded-lg"
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
           ></input>
           <button
-            className="px-4 py-0 bg-green-100 rounded-lg"
+            className="px-2 py-0 bg-green-100 rounded-lg border-2 border-green-700"
             onClick={() => {
               // filter the restaurant cards and update the ui
               // searchText
@@ -97,14 +100,18 @@ const Body = () => {
           </button>
         </div>
       </div>
-      <div className="flex flex-wrap ">
+      <div className="flex flex-wrap w-9/12 mx-auto">
         {filteredRestaurant.map((restaurant) => (
           <Link
             key={restaurant.info.id}
             to={"/restaurants/" + restaurant.info.id}
           >
-            {" "}
-            <RestaurentCard resData={restaurant} />{" "}
+            
+            {restaurant.info.veg ? (
+              <RestaurantPureVeg resData={restaurant} />
+            ) : (
+              <RestaurentCard resData={restaurant} />
+            )}
           </Link>
         ))}
       </div>
