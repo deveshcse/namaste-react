@@ -1,14 +1,15 @@
 import Shimmer from "./Shimmer";
-import ReccomendedCard from "./ReccomendedCard";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
 import RestaurantCategory from "./RestaurantCategory";
-
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
 
   const resInfo = useRestaurantMenu(resId);
+
+  const [showIndex, setShowIndex] = useState(0);
 
   if (resInfo === null) return <Shimmer />;
 
@@ -24,13 +25,38 @@ const RestaurantMenu = () => {
     );
   console.log("categories in menu:", categories);
 
-  const { name, cuisines, costForTwoMessage } = resInfo.cards[2].card.card.info;
+  const {
+    name,
+    cuisines,
+    avgRating,
+    totalRatingsString,
+    areaName,
+    costForTwoMessage,
+  } = resInfo.cards[2].card.card.info;
+  const { slaString } = resInfo.cards[2].card.card.info.sla;
+  const { message } = resInfo.cards[2].card.card.info.feeDetails;
   return (
     <div className="menu">
-      <h1>{name}</h1>
-      <h3>
-        {cuisines.join(", ")}, {costForTwoMessage}
-      </h3>
+      <div>
+        <h1>{name}</h1>
+      </div>
+      <div>
+        <span>
+          ⭐{avgRating} ({totalRatingsString})•{costForTwoMessage}
+        </span>
+      </div>
+      <div>
+        <h1>{cuisines.join(", ")}</h1>
+      </div>
+      <div>
+        <p> {areaName} </p>
+        <p> {slaString} </p>
+      </div>
+      <div>
+  <span>{(message || "").replace(/<\/?b>/g, "")}</span>
+</div>
+
+
       <h1></h1>
       {/* <h3>{card.title}</h3> */}
       <ul>
@@ -40,8 +66,15 @@ const RestaurantMenu = () => {
       </ul>
 
       {/* {categories accoridan} */}
-      {categories.map((category) => (
-       <RestaurantCategory data = {category.card.card} />
+      {categories.map((category, index) => (
+        //controlled component
+        <RestaurantCategory
+          key={category.card.card.title}
+          data={category.card.card}
+          showItems={index === showIndex ? true : false}
+          setShowIndex={() => setShowIndex(index)}
+          
+        />
       ))}
     </div>
   );
